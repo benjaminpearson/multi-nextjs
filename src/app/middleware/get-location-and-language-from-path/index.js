@@ -1,26 +1,18 @@
-import Cookies from 'cookies';
-import cookie from 'cookie';
+import Cookie from '../../cookie';
+import _trim from 'lodash/trim';
+import _split from 'lodash/split';
+import _map from 'lodash/map';
 
-const getLocationAndLanguageFromPath = ({ req, res, asPath }, { locations, languages }) => {
+const PATH_REGEX = new RegExp(`^\/[a-z]{2}\/[a-z]{2}\/`, 'gi');
+
+const getLocationAndLanguageFromPath = ({ req, res, asPath }) => {
   const url = asPath || req.url;
-  const locationLangRegex = new RegExp(`^\/[a-z]{2}\/[a-z]{2}\/`, 'gi');
-  const matchedLocationLang = url.match(locationLangRegex);
-  if (matchedLocationLang) {
-    const parts = matchedLocationLang[0].split('/');
-    const location = parts[1];
-    const language = parts[2];
-
-    if (process.browser) {
-      document.cookie = cookie.serialize('location', location, { path: '/' });
-      document.cookie = cookie.serialize('language', language, { path: '/' });
-    } else {
-      const cookies = new Cookies(req, res);
-      // @TODO: Set longer duration of this cookie preference
-      cookies.set('location', location, { path: '/', httpOnly: false });
-      cookies.set('language', language, { path: '/', httpOnly: false });
-    }
-
-    return { location, language, asPath: url.replace(locationLangRegex, '/') };
+  const [location, language] = _split(_trim(url.match(PATH_REGEX), '/'), '/') || [];
+  if (location && language) {
+    const cookie = new Cookie({ req, res });
+    // @TODO: Set longer duration of this cookie preference
+    _map({ location, language }, (value, key) => cookie.set(key, value, { path: '/', httpOnly: false }));
+    return { location, language, asPath: url.replace(PATH_REGEX, '/') };
   }
   return false;
 };

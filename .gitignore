@@ -3,4 +3,6 @@
 .next
 node_modules/
 
+coverage/
+
 .vercel

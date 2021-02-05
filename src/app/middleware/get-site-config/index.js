@@ -1,6 +1,4 @@
-
-import Cookies from 'cookies';
-import cookie from 'cookie';
+import Cookie from '../../cookie';
 import _replace from 'lodash/replace';
 import _find from 'lodash/find';
 
@@ -43,9 +41,10 @@ const SITES = {
 };
 
 const getSiteConfig = ({ req, res, query }) => {
-  const cookies = process.browser ? cookie.parse(document.cookie)  : (new Cookies(req, res));
+  const cookie = new Cookie({ req, res });
+  const cookieHostname = cookie.get('hostname');
+
   const headerHostname = req?.headers.host;
-  const cookieHostname = process.browser ? cookies.hostname : cookies.get('hostname');
   const queryHostname = query?.hostname;
   const validHostname = _find([_replace(headerHostname, ':3000', ''), queryHostname, cookieHostname], hostname => SITES[hostname]);
   const foundSite = SITES[validHostname];
@@ -53,17 +52,11 @@ const getSiteConfig = ({ req, res, query }) => {
   // @TODO: This status code could change
   if (!foundSite) {
     console.log('Could not find site config', { headerHostname, cookieHostname, queryHostname });
-    res.statusCode = 404;
-    return true;
+    return { statusCode: 404 };
   }
 
-  if (process.browser) {
-    document.cookie = cookie.serialize('hostname', validHostname, { path: '/' });
-  } else {
-    cookies.set('hostname', validHostname, { path: '/', httpOnly: false });
-  }
-  const { theme, locations, languages, features } = foundSite;
-  return { theme, locations, languages, features };
+  cookie.set('hostname', validHostname, { path: '/', httpOnly: false });
+  return foundSite;
 }
 
 export default getSiteConfig;

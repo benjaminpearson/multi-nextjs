@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`client gets location and language from valid path and returns adjusted asPath 1`] = `
+Object {
+  "asPath": "/feature",
+  "language": "en",
+  "location": "au",
+}
+`;
+
+exports[`server gets location and language from valid path and returns adjusted asPath 1`] = `
+Object {
+  "asPath": "/feature",
+  "language": "en",
+  "location": "au",
+}
+`;

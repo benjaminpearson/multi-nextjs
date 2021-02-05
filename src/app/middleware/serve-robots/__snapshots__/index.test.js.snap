@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`server serves robots when /robots.txt requested 1`] = `
+Array [
+  Array [
+    "User-agent: *
+Disallow: /
+Sitemap: http://www.example.com/sitemap.xml",
+  ],
+]
+`;

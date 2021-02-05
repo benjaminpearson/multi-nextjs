@@ -36,23 +36,21 @@ MyApp.getInitialProps = ({ ctx }) => _pick(_transform([
   // @TODO: serve sitemap.xml
   getLocationAndLanguageFromPath,
   redirectToLocationAndLanguageSubpath,
-  handleInvalidLocationOrLanguage({ shouldRedirect: false }),
+  handleInvalidLocationOrLanguage,
   ({ req, res }, { features, asPath }) => {
     if (asPath.indexOf('/feature/abc') === 0 && features?.abc === false) {
-      console.log('Visited disabled feature');
-      if (process.browser) {
-        return { statusCode: 404 };
-      } else {
-        res.statusCode = 404;
-      }
+      return { statusCode: 404 };
     }
     return false;
   },
-  ({ res  }, { site, location, language, theme, statusCode }) => ({ pageProps: { site, location, language, theme }, statusCode: statusCode || res?.statusCode || 200 })
+  ({ res }, { site, location, language, theme, statusCode = 200 }) => {
+    if (res) res.statusCode = statusCode;
+    return ({ pageProps: { site, location, language, theme }, statusCode });
+  },
 ], (accumulated, method) => {
   const result = method(ctx, accumulated);
   if (result === true) return false;
   _merge(accumulated, result);
 }, {}), 'pageProps', 'statusCode');
 
-export default MyApp
+export default MyApp;

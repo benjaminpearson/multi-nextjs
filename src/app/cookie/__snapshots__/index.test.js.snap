@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`client should construct cookie 1`] = `
+Object {
+  "tasty_cookie": "strawberry",
+  "yummy_cookie": "choco",
+}
+`;
+
+exports[`server should construct cookie 1`] = `
+Cookies {
+  "request": Object {
+    "connection": Object {
+      "encrypted": true,
+    },
+    "headers": Object {
+      "cookie": "yummy_cookie=choco; tasty_cookie=strawberry",
+    },
+  },
+  "response": Object {
+    "getHeader": [MockFunction],
+    "set": [MockFunction],
+    "setHeader": [MockFunction],
+  },
+  "secure": undefined,
+}
+`;

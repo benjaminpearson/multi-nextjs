@@ -1,7 +1,6 @@
 const setCacheControl = ({ res }) => {
-  if (res) {
-    res.setHeader('cache-control', 's-maxage=1, stale-while-revalidate');
-  }
+  res && res.setHeader('cache-control', 's-maxage=1, stale-while-revalidate');
+  return false;
 };
 
 export default setCacheControl;

@@ -5,15 +5,14 @@ const redirectLowercase = ({ req, res, asPath }) => {
   const lowerCaseUrl = url.toLowerCase();
 
   if (url === lowerCaseUrl) return false;
+
   if (process.browser) {
-    Router.push(lowerCaseUrl)
+    Router.push(lowerCaseUrl);
   } else {
-    res.writeHead(308, {
-      Location: lowerCaseUrl,
-    });
+    res.writeHead(308, { Location: lowerCaseUrl });
     res.end();
   }
   return true;
-}
+};
 
 export default redirectLowercase;
