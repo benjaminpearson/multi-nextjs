@@ -1,1 +1,1 @@
-export { default } from 'pages/feature';
+export { default } from 'pages/placeholder';
