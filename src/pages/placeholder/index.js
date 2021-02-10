@@ -19,4 +19,10 @@ function Placeholder({ ...props }) {
   )
 }
 
+export async function getServerSideProps(context) {
+  return {
+    props: { example: 'foo' },
+  }
+}
+
 export default Placeholder;

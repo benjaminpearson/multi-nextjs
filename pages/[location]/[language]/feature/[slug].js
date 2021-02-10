@@ -1,1 +1,1 @@
-export { default } from 'pages/placeholder';
+export { default, getServerSideProps } from 'pages/placeholder';
