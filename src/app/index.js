@@ -17,7 +17,7 @@ import setCacheControl from './middleware/set-cache-control';
 function CustomApp(context) {
   const { Component, pageProps, statusCode } = context;
   const cookie = new Cookie();
-  return <div style={{ backgroundColor: pageProps.theme.color }}>
+  return <div>
     <div>
       {_map(['one.local', 'two.local'], value => {
         return <Link key={value} href="/feature/abc">
@@ -27,7 +27,12 @@ function CustomApp(context) {
         </Link>;
       })}
     </div>
-    {statusCode !== 200 ? <Error statusCode={statusCode} /> : <Component {...pageProps} /> }
+    <div>
+      <Link href="/">Home</Link>
+      <Link href="/feature/abc">Feature ABC</Link>
+      <Link href="/feature/def">Feature DEF</Link>
+    </div>
+    {statusCode !== 200 ? <Error statusCode={statusCode} /> : <div style={{ backgroundColor: pageProps.theme.color }}><Component {...pageProps} /></div> }
   </div>;
 }
 
